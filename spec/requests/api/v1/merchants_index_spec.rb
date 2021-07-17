@@ -7,6 +7,7 @@ describe 'Merchants API' do
     get '/api/v1/merchants'
 
     expect(response).to be_successful
+    expect(response.status).to eq(200)
 
     merchants = JSON.parse(response.body, symbolize_names: true)
 
