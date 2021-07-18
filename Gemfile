@@ -37,6 +37,7 @@ group :development, :test do
   gem 'travis'
   gem 'awesome_print'
   gem 'jsonapi-serializer'
+  gem 'shoulda-matchers', '~> 3.1'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
