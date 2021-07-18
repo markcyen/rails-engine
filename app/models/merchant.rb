@@ -1,3 +1,10 @@
 class Merchant < ApplicationRecord
-  has_many :items
+  validates :name, presence: true
+  has_many :items, dependent: :destroy
+
+  def self.limit_merchants_per_page(data_limit = 20, page = 1)
+    limit(data_limit).offset(
+      (page.to_i - 1) * data_limit
+    )
+  end
 end
