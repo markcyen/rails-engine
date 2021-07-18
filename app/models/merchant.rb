@@ -3,8 +3,15 @@ class Merchant < ApplicationRecord
   has_many :items, dependent: :destroy
 
   def self.limit_merchants_per_page(data_limit = 20, page = 1)
-    limit(data_limit).offset(
-      (page.to_i - 1) * data_limit
-    )
+    # binding.pry
+    if data_limit.to_i > 20 && page.to_i <= 1
+      limit(DATA_LIMIT)
+    elsif page.to_i < 1
+      limit(DATA_LIMIT)
+    else
+      limit(data_limit.to_i).offset(
+        (page.to_i - 1) * data_limit.to_i
+      )
+    end
   end
 end
