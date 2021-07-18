@@ -76,4 +76,19 @@ RSpec.describe 'Item RESTful API Endpoints' do
       expect(item.unit_price).to_not eq(previous_item_price)
     end
   end
+
+  describe 'delete endpoint' do
+    it 'can destroy an item' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+
+      expect(Item.count).to eq(1)
+
+      delete "/api/v1/items/#{item.id}"
+
+      expect(response).to be_successful
+      expect(Item.count).to eq(0)
+      expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
 end
