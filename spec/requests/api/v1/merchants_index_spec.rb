@@ -4,7 +4,7 @@ describe 'Merchants API' do
   before :each do
     create_list(:merchant, 25)
   end
-  it 'sends a list of 20 merchants for first page with default query params' do
+  it 'sends a list of twenty merchants for default query params' do
     get '/api/v1/merchants'
 
     expect(response).to be_successful
@@ -23,7 +23,7 @@ describe 'Merchants API' do
     end
   end
 
-  it 'sends a list of 20 merchants for first page with limit as query param' do
+  it 'sends a list of twenty merchants for default page one with limit as query param' do
     get '/api/v1/merchants', params: { data_limit: 35 }
 
     expect(response).to be_successful
@@ -32,5 +32,18 @@ describe 'Merchants API' do
     merchants = JSON.parse(response.body, symbolize_names: true)
 
     expect(merchants.size).to eq(20)
+    expect(merchants.last[:id]).to eq(20)
+  end
+
+  it 'sends a list of twenty merchants for default limit of twenty with page zero' do
+    get '/api/v1/merchants', params: { page: 0 }
+
+    expect(response).to be_successful
+    expect(response.status).to eq(200)
+
+    merchants = JSON.parse(response.body, symbolize_names: true)
+
+    expect(merchants.size).to eq(20)
+    expect(merchants.last[:id]).to eq(20)
   end
 end
