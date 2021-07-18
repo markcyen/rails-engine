@@ -47,4 +47,33 @@ RSpec.describe 'Item RESTful API Endpoints' do
       expect(created_item.unit_price).to eq(item_params[:unit_price])
     end
   end
+
+  describe 'edit endpoint' do
+    it 'can update an existing item' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+      previous_item_name = Item.last.name
+      previous_item_description = Item.last.description
+      previous_item_price = Item.last.unit_price
+      item_1_params = ({
+        name: 'Sunflower Seeds',
+        description: 'Tasty roasted and salted sunflower seeds',
+        unit_price: 203,
+        merchant_id: merchant.id
+        })
+
+      headers = {"CONTENT_TYPE" => "application/json"}
+      patch "/api/v1/items/#{Item.last.id}", headers: headers, params: JSON.generate({item: item_1_params})
+      item = Item.find_by(id: item.id)
+
+      expect(response).to be_successful
+      expect(item.name).to eq('Sunflower Seeds')
+      expect(item.description).to eq('Tasty roasted and salted sunflower seeds')
+      expect(item.unit_price).to eq(203)
+
+      expect(item.name).to_not eq(previous_item_name)
+      expect(item.description).to_not eq(previous_item_description)
+      expect(item.unit_price).to_not eq(previous_item_price)
+    end
+  end
 end
