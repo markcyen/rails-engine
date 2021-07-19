@@ -12,6 +12,12 @@ Rails.application.routes.draw do
 
       resources :items, only: [:show, :create, :update, :destroy]
 
+      namespace :items do
+        scope '/:id' do
+          resource :merchant, only: :show
+        end
+      end
+
     end
   end
 end
