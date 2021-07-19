@@ -13,20 +13,38 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       item_json = JSON.parse(response.body, symbolize_names: true)
 
-      expect(item_json).to have_key(:id)
-      expect(item_json[:id]).to eq(item.id)
+      expect(item_json.size).to eq(1)
+      expect(item_json).to be_a Hash
+      expect(item_json).to have_key(:data)
+      expect(item_json[:data].size).to eq(3)
+      expect(item_json[:data]).to be_a Hash
 
-      expect(item_json).to have_key(:name)
-      expect(item_json[:name]).to eq(item.name)
+      expect(item_json[:data]).to have_key(:id)
+      expect(item_json[:data][:id]).to be_a String
 
-      expect(item_json).to have_key(:description)
-      expect(item_json[:description]).to eq(item.description)
+      expect(item_json[:data]).to have_key(:type)
+      expect(item_json[:data][:type]).to be_a String
+      expect(item_json[:data][:type]).to eq("item")
 
-      expect(item_json).to have_key(:unit_price)
-      expect(item_json[:unit_price]).to eq(item.unit_price)
+      expect(item_json[:data]).to have_key(:attributes)
+      expect(item_json[:data][:attributes]).to be_a Hash
+      expect(item_json[:data][:attributes].size).to eq(4)
 
-      expect(item_json).to have_key(:merchant_id)
-      expect(item_json[:merchant_id]).to eq(item.merchant_id)
+      expect(item_json[:data][:attributes]).to have_key(:name)
+      expect(item_json[:data][:attributes][:name]).to be_a String
+      expect(item_json[:data][:attributes][:name]).to eq(item.name)
+
+      expect(item_json[:data][:attributes]).to have_key(:description)
+      expect(item_json[:data][:attributes][:description]).to be_a String
+      expect(item_json[:data][:attributes][:description]).to eq(item.description)
+
+      expect(item_json[:data][:attributes]).to have_key(:unit_price)
+      expect(item_json[:data][:attributes][:unit_price]).to be_a Float
+      expect(item_json[:data][:attributes][:unit_price]).to eq(item.unit_price)
+
+      expect(item_json[:data][:attributes]).to have_key(:merchant_id)
+      expect(item_json[:data][:attributes][:merchant_id]).to be_an Integer
+      expect(item_json[:data][:attributes][:merchant_id]).to eq(item.merchant_id)
     end
   end
 
