@@ -24,6 +24,9 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       expect(item_json).to have_key(:unit_price)
       expect(item_json[:unit_price]).to eq(item.unit_price)
+
+      expect(item_json).to have_key(:merchant_id)
+      expect(item_json[:merchant_id]).to eq(item.merchant_id)
     end
   end
 
@@ -89,6 +92,33 @@ RSpec.describe 'Item RESTful API Endpoints' do
       expect(response).to be_successful
       expect(Item.count).to eq(0)
       expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'merchant data from item ID' do
+    it 'can send merchant data from item id' do
+      merchant = create(:merchant)
+      item = create(:item, merchant: merchant)
+
+      get "/api/v1/items/#{item.id}/merchant"
+
+      expect(response).to be_successful
+      expect(response.status).to eq(200)
+
+      merchant_json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(merchant_json).to have_key(:data)
+      expect(merchant_json[:data]).to be_a Hash
+
+      expect(merchant_json[:data]).to have_key(:id)
+      expect(merchant_json[:data][:id].to_i).to eq(merchant.id)
+
+      expect(merchant_json[:data]).to have_key(:type)
+      expect(merchant_json[:data][:type]).to eq("merchant")
+
+      expect(merchant_json[:data]).to have_key(:attributes)
+      expect(merchant_json[:data][:attributes]).to have_key(:name)
+      expect(merchant_json[:data][:attributes][:name]).to eq(merchant.name)
     end
   end
 end
