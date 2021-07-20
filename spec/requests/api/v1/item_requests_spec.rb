@@ -71,30 +71,50 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
   describe 'edit endpoint' do
     it 'can update an existing item' do
-      merchant = create(:merchant)
-      item = create(:item, merchant: merchant)
+      merchant_1 = create(:merchant)
+      item = create(:item, merchant: merchant_1)
+
+      merchant_2 = create(:merchant)
+
       previous_item_name = Item.last.name
       previous_item_description = Item.last.description
       previous_item_price = Item.last.unit_price
-      item_1_params = ({
+      previous_item_merchant = Item.last.merchant_id
+
+      get "/api/v1/items/#{item.id}"
+
+      item_json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(item_json[:data][:attributes][:name]).to eq(previous_item_name)
+      expect(item_json[:data][:attributes][:description]).to eq(previous_item_description)
+      expect(item_json[:data][:attributes][:unit_price]).to eq(previous_item_price)
+      expect(item_json[:data][:attributes][:merchant_id]).to eq(previous_item_merchant)
+
+      item_changed_params = ({
         name: 'Sunflower Seeds',
         description: 'Tasty roasted and salted sunflower seeds',
-        unit_price: 203,
-        merchant_id: merchant.id
+        unit_price: 203.0,
+        merchant_id: merchant_2.id
         })
 
       headers = {"CONTENT_TYPE" => "application/json"}
-      patch "/api/v1/items/#{Item.last.id}", headers: headers, params: JSON.generate({item: item_1_params})
-      item = Item.find_by(id: item.id)
+      patch "/api/v1/items/#{Item.last.id}", headers: headers, params: JSON.generate({item: item_changed_params})
+      # search_item = Item.find_by(id: item.id)
 
       expect(response).to be_successful
-      expect(item.name).to eq('Sunflower Seeds')
-      expect(item.description).to eq('Tasty roasted and salted sunflower seeds')
-      expect(item.unit_price).to eq(203)
+      expect(response.status).to eq(200)
 
-      expect(item.name).to_not eq(previous_item_name)
-      expect(item.description).to_not eq(previous_item_description)
-      expect(item.unit_price).to_not eq(previous_item_price)
+      item_changed_json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(item_changed_json[:data][:attributes][:name]).to eq(Item.last.name)
+      expect(item_changed_json[:data][:attributes][:description]).to eq(Item.last.description)
+      expect(item_changed_json[:data][:attributes][:unit_price]).to eq(Item.last.unit_price)
+      expect(item_changed_json[:data][:attributes][:merchant_id]).to eq(Item.last.merchant_id)
+
+      expect(item_changed_json[:data][:attributes][:name]).to_not eq(previous_item_name)
+      expect(item_changed_json[:data][:attributes][:description]).to_not eq(previous_item_description)
+      expect(item_changed_json[:data][:attributes][:unit_price]).to_not eq(previous_item_price)
+      expect(item_changed_json[:data][:attributes][:merchant_id]).to_not eq(previous_item_merchant)
     end
   end
 
