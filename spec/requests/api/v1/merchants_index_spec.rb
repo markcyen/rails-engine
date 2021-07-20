@@ -14,30 +14,22 @@ RSpec.describe 'Merchants API' do
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(20)
-      expect(merchants.last[:id]).to eq(20)
-
-      merchants.each do |merchant|
-        expect(merchant).to have_key(:id)
-        expect(merchant[:id]).to be_an(Integer)
-
-        expect(merchant).to have_key(:name)
-        expect(merchant[:name]).to be_a(String)
-      end
+      expect(merchants[:data]).to be_an Array
+      expect(merchants[:data].last[:id].to_i).to eq(20)
     end
   end
 
   describe 'default page, limit query greater than 20' do
     it 'sends a list of twenty merchants for default page one with limit as query param' do
-      get '/api/v1/merchants', params: { data_limit: 35 }
+      get '/api/v1/merchants', params: { per_page: 35 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(35)
-      expect(merchants.last[:id]).to eq(35)
+      expect(merchants[:data].size).to eq(35)
+      expect(merchants[:data].last[:id].to_i).to eq(35)
     end
   end
 
@@ -50,8 +42,8 @@ RSpec.describe 'Merchants API' do
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(20)
-      expect(merchants.last[:id]).to eq(20)
+      expect(merchants[:data].size).to eq(20)
+      expect(merchants[:data].last[:id].to_i).to eq(20)
     end
   end
 
@@ -78,26 +70,26 @@ RSpec.describe 'Merchants API' do
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(20)
-      expect(merchants.last[:id]).to eq(40)
+      expect(merchants[:data].size).to eq(20)
+      expect(merchants[:data].last[:id].to_i).to eq(40)
     end
   end
 
   describe 'limit query, default page' do
     it 'sends a list of merchants based on limit query and default page one' do
-      get '/api/v1/merchants', params: { data_limit: 39 }
+      get '/api/v1/merchants', params: { per_page: 39 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(39)
-      expect(merchants.last[:id]).to eq(39)
+      expect(merchants[:data].size).to eq(39)
+      expect(merchants[:data].last[:id].to_i).to eq(39)
     end
 
     it 'sends error in response body when limit query is negative and default page one' do
-      get '/api/v1/merchants', params: { data_limit: -39 }
+      get '/api/v1/merchants', params: { per_page: -39 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -111,15 +103,15 @@ RSpec.describe 'Merchants API' do
 
   describe 'both query params' do
     it 'sends list of merchants based on both query params' do
-      get '/api/v1/merchants', params: { data_limit: 15, page: 3 }
+      get '/api/v1/merchants', params: { per_page: 15, page: 3 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
 
       merchants = JSON.parse(response.body, symbolize_names: true)
 
-      expect(merchants.size).to eq(15)
-      expect(merchants.last[:id]).to eq(40)
+      expect(merchants[:data].size).to eq(15)
+      expect(merchants[:data].last[:id].to_i).to eq(45)
     end
   end
 end
