@@ -63,7 +63,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
       # created_item = Item.last
 
       expect(response).to be_successful
-      expect(response.status).to eq(200)
+      expect(response.status).to eq(201)
 
       created_item_json = JSON.parse(response.body, symbolize_names: true)
 
@@ -152,9 +152,19 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       expect(Item.count).to eq(1)
 
+      get "/api/v1/items/#{item.id}"
+
+      item_json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(item_json[:data][:attributes][:name]).to eq(item.name)
+      expect(item_json[:data][:attributes][:description]).to eq(item.description)
+      expect(item_json[:data][:attributes][:unit_price]).to eq(item.unit_price)
+      expect(item_json[:data][:attributes][:merchant_id]).to eq(item.merchant_id)
+
       delete "/api/v1/items/#{item.id}"
 
       expect(response).to be_successful
+      expect(response.status).to eq(204)
       expect(Item.count).to eq(0)
       expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
     end
