@@ -60,12 +60,39 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       headers = {"CONTENT_TYPE" => "application/json"}
       post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
-      created_item = Item.last
+      # created_item = Item.last
 
       expect(response).to be_successful
-      expect(created_item.name).to eq(item_params[:name])
-      expect(created_item.description).to eq(item_params[:description])
-      expect(created_item.unit_price).to eq(item_params[:unit_price])
+      expect(response.status).to eq(200)
+
+      created_item_json = JSON.parse(response.body, symbolize_names: true)
+
+      expect(created_item_json).to have_key(:data)
+      expect(created_item_json[:data]).to be_a Hash
+
+      expect(created_item_json[:data].size).to eq(3)
+      expect(created_item_json[:data]).to be_a Hash
+
+      expect(created_item_json[:data]).to have_key(:id)
+      expect(created_item_json[:data]).to have_key(:type)
+      expect(created_item_json[:data][:type]).to eq("item")
+
+      expect(created_item_json[:data]).to have_key(:attributes)
+      expect(created_item_json[:data][:attributes]).to have_key(:name)
+      expect(created_item_json[:data][:attributes][:name]).to be_a String
+      expect(created_item_json[:data][:attributes][:name]).to eq(item_params[:name])
+
+      expect(created_item_json[:data][:attributes]).to have_key(:description)
+      expect(created_item_json[:data][:attributes][:description]).to be_a String
+      expect(created_item_json[:data][:attributes][:description]).to eq(item_params[:description])
+
+      expect(created_item_json[:data][:attributes]).to have_key(:unit_price)
+      expect(created_item_json[:data][:attributes][:unit_price]).to be_a Float
+      expect(created_item_json[:data][:attributes][:unit_price]).to eq(item_params[:unit_price])
+
+      expect(created_item_json[:data][:attributes]).to have_key(:merchant_id)
+      expect(created_item_json[:data][:attributes][:merchant_id]).to be_an Integer
+      expect(created_item_json[:data][:attributes][:merchant_id]).to eq(item_params[:merchant_id])
     end
   end
 
