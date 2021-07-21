@@ -38,26 +38,57 @@ RSpec.describe 'Merchants Non-ReSTful API Most Revenue Endpoint' do
   end
 
   describe 'top merchants revenue endpoint' do
-    it 'can send error message for sad path' do
+    before :all do
       merchant_2 = create(:merchant)
       item_4 = create(:item, unit_price: 129.52, merchant: merchant_2)
       invoice_3 = create(:invoice, merchant: merchant_2, status: 'shipped')
       create(:invoice_item, item: item_4, invoice: invoice_3, quantity: 7, unit_price: item_4.unit_price)
       create(:transaction, result: "success", invoice: invoice_3)
+    end
 
+    it 'can send error message for sad path when quantity is zero' do
       get "/api/v1/revenue/merchants", params: { quantity: 0 }
 
       sad_path_1 = JSON.parse(response.body, symbolize_names: true)
 
       expect(sad_path_1[:status]).to eq(400)
       expect(sad_path_1[:message]).to eq("Need a relevant quantity input.")
+    end
 
+    it 'can send error message for sad path when quantity is negative' do
       get "/api/v1/revenue/merchants", params: { quantity: -1 }
 
       sad_path_2 = JSON.parse(response.body, symbolize_names: true)
 
       expect(sad_path_2[:status]).to eq(400)
       expect(sad_path_2[:message]).to eq("Need a relevant quantity input.")
+    end
+
+    it 'can send error message for sad path when quantity is blank' do
+      get "/api/v1/revenue/merchants", params: { quantity: "" }
+
+      sad_path_3 = JSON.parse(response.body, symbolize_names: true)
+
+      expect(sad_path_3[:status]).to eq(400)
+      expect(sad_path_3[:message]).to eq("Need a relevant quantity input.")
+    end
+
+    it 'can send error message for sad path when quantity is excluded' do
+      get "/api/v1/revenue/merchants"
+
+      sad_path_4 = JSON.parse(response.body, symbolize_names: true)
+
+      expect(sad_path_4[:status]).to eq(400)
+      expect(sad_path_4[:message]).to eq("Need a relevant quantity input.")
+    end
+
+    it 'can send error message for sad path when quantity is a string' do
+      get "/api/v1/revenue/merchants", params: { quantity: "hello world" }
+
+      sad_path_5 = JSON.parse(response.body, symbolize_names: true)
+
+      expect(sad_path_5[:status]).to eq(400)
+      expect(sad_path_5[:message]).to eq("Need a relevant quantity input.")
     end
   end
 end
