@@ -1,7 +1,4 @@
 class Api::V1::MerchantsController < ApplicationController
-  # DATA_LIMIT = 20
-  # PAGE_DEFAULT = 1
-
   def index
     if !params[:per_page].present? && !params[:page].present?
       merchants = Merchant.limit(20)
@@ -41,5 +38,4 @@ class Api::V1::MerchantsController < ApplicationController
     merchant = Merchant.find(params[:id])
     render json: MerchantSerializer.new(merchant)
   end
-
 end
