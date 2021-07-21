@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :invoice do
-    status { ['In Progress', 'Completed', 'Cancelled'].sample }
+    status { ['pending', 'packaged', 'shipped'].sample }
 
     association :customer, factory: :customer
     association :merchant, factory: :merchant
