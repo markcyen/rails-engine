@@ -47,8 +47,11 @@ RSpec.describe Merchant, type: :model do
         create(:invoice_item, item: item_4, invoice: invoice_3, quantity: 7, unit_price: item_4.unit_price)
         create(:transaction, result: "success", invoice: invoice_3)
 
-        expect(Merchant.top_revenue.first.most_revenue.round(2)).to eq(77243.20)
-        expect(Merchant.top_revenue.second.most_revenue.round(2)).to eq(906.64)
+        quantity = 10
+
+        expect(Merchant.top_revenue(quantity).first.revenue.round(2)).to eq(19310.80)
+        expect(Merchant.top_revenue(quantity).second.revenue.round(2)).to eq(906.64)
+        expect(Merchant.top_revenue(quantity).third).to eq(nil)
       end
     end
   end
