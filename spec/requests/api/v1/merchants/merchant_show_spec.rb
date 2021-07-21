@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Merchant RESTful API Endpoint' do
+RSpec.describe 'Merchant ReSTful API Endpoint' do
   describe 'show endpoint' do
     it 'sends a merchant data' do
       merchant = create(:merchant)

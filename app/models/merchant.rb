@@ -7,9 +7,17 @@ class Merchant < ApplicationRecord
 
   def revenue
     invoices.joins(:invoice_items, :transactions)
-      # .group(':id', 'invoices.id')
       .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
       .sum('invoice_items.quantity * invoice_items.unit_price')
       .round(2)
+  end
+
+  def self.top_revenue(quantity)
+    joins(:invoices, :invoice_items, :transactions)
+      .select('merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+      .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
+      .group(:id)
+      .order('revenue DESC')
+      .limit(quantity)
   end
 end
