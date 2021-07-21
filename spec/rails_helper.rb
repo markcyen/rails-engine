@@ -66,6 +66,11 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
   end
 
+  config.before(:suite) do
+    DatabaseCleaner[:active_record].strategy = :deletion
+    # put in Faker data (maybe?)
+  end
+
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
   end
