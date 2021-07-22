@@ -40,6 +40,18 @@ class Api::V1::ItemsController < ApplicationController
     render json: ItemSerializer.new(item)
   end
 
+  def find_all
+    if params[:name].nil? ||
+      !params[:name].present? ||
+      params[:name].empty? ||
+      Item.search(params[:name]).empty?
+        render json: {data: []}
+    else
+      find_all_items = Item.search(params[:name])
+      render json: ItemSerializer.new(find_all_items)
+    end
+  end
+
   def create
     created_item = Item.create(item_params)
     render json: ItemSerializer.new(created_item)
