@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
       namespace :revenue do
         resources :merchants, only: [:index, :show]
+        resources :unshipped, only: [:index]
       end
     end
   end
