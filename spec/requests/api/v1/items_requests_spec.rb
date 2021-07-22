@@ -1,26 +1,43 @@
 require 'rails_helper'
 
 RSpec.describe 'Items API' do
-  before :each do
-    FactoryBot.reload
+  before :all do
+    ActiveRecord::Base.connection.tables.each do |t|
+      ActiveRecord::Base.connection.reset_pk_sequence!(t)
+    end
     Item.destroy_all
-    Merchant.destroy_all
+
+    merchant = create(:merchant)
+    63.times do |index|
+      Item.create(
+        name: "item_#{index + 1}",
+        description: Faker::Quote.yoda,
+        unit_price: Faker::Number.number(digits: 7),
+        merchant: merchant
+      )
+    end
   end
+
+  # after :each do
+  #   FactoryBot.reload
+  #   Item.destroy_all
+  #   Merchant.destroy_all
+  # end
 
   describe 'default' do
     it 'sends a list of twenty items for default query params' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items'
 
@@ -39,15 +56,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { per_page: 35 }
 
@@ -55,7 +72,7 @@ RSpec.describe 'Items API' do
       expect(response.status).to eq(200)
 
       items = JSON.parse(response.body, symbolize_names: true)
-
+binding.pry if items[:data].last[:attributes][:name] != "item_35"
       expect(items[:data].size).to eq(35)
       expect(items[:data].last[:attributes][:name]).to eq("item_35")
     end
@@ -66,15 +83,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { page: 0 }
 
@@ -82,7 +99,7 @@ RSpec.describe 'Items API' do
       expect(response.status).to eq(200)
 
       items = JSON.parse(response.body, symbolize_names: true)
-
+binding.pry if items[:data].last[:attributes][:name] != "item_20"
       expect(items[:data].size).to eq(20)
       expect(items[:data].last[:attributes][:name]).to eq("item_20")
     end
@@ -93,15 +110,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { page: -1 }
 
@@ -120,15 +137,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { page: 2 }
 
@@ -136,7 +153,7 @@ RSpec.describe 'Items API' do
       expect(response.status).to eq(200)
 
       items = JSON.parse(response.body, symbolize_names: true)
-
+binding.pry if items[:data].last[:attributes][:name] != "item_40"
       expect(items[:data].size).to eq(20)
       expect(items[:data].last[:attributes][:name]).to eq("item_40")
     end
@@ -147,15 +164,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { per_page: 39 }
 
@@ -172,15 +189,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { per_page: -39 }
 
@@ -199,15 +216,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { per_page: 15, page: 3 }
 
@@ -226,15 +243,15 @@ RSpec.describe 'Items API' do
       # FactoryBot.reload
       # Item.destroy_all
       # Merchant.destroy_all
-      merchant = create(:merchant)
-      63.times do |index|
-        Item.create(
-          name: "item_#{index + 1}",
-          description: Faker::Quote.yoda,
-          unit_price: Faker::Number.number(digits: 7),
-          merchant: merchant
-        )
-      end
+      # merchant = create(:merchant)
+      # 63.times do |index|
+      #   Item.create(
+      #     name: "item_#{index + 1}",
+      #     description: Faker::Quote.yoda,
+      #     unit_price: Faker::Number.number(digits: 7),
+      #     merchant: merchant
+      #   )
+      # end
 
       get '/api/v1/items', params: { per_page: 100 }
 
