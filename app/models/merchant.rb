@@ -19,4 +19,8 @@ class Merchant < ApplicationRecord
       .order('revenue DESC')
       .limit(quantity)
   end
+
+  def self.search(search_params)
+    where("name LIKE ?", "%#{search_params}%")
+  end
 end
