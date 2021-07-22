@@ -24,7 +24,7 @@ RSpec.describe Merchant, type: :model do
       create(:transaction, result: "success", invoice: invoice_1)
       create(:transaction, result: "failed", invoice: invoice_2)
 
-      expect(merchant_1.revenue).to eq(12599.40)
+      expect(merchant_1.revenue.round(2)).to eq(12599.40)
     end
 
     describe '#top_revenue' do

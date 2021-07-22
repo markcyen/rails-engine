@@ -7,4 +7,13 @@ class Invoice < ApplicationRecord
   has_many :invoice_items, dependent: :destroy
   has_many :items, through: :invoice_items
   has_many :merchants, through: :items
+
+  def self.unshipped_potential(quantity)
+    joins(:invoice_items)
+      .select('invoices.*, sum(invoice_items.quantity * invoice_items.unit_price) AS potential_revenue')
+      .where.not('invoices.status = ?', "shipped")
+      .group(:id)
+      .order('potential_revenue DESC')
+      .limit(quantity)
+  end
 end
