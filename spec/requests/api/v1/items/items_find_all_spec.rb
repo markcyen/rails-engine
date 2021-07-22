@@ -51,7 +51,7 @@ RSpec.describe 'API Non-ReSTful' do
 
       find_all_items = JSON.parse(response.body, symbolize_names: true)
 
-      expect(find_all_items[:data]).to eq({})
+      expect(find_all_items[:data]).to eq([])
     end
 
     it 'can send empty endpoint with no name query' do
@@ -68,7 +68,7 @@ RSpec.describe 'API Non-ReSTful' do
 
       find_all_items = JSON.parse(response.body, symbolize_names: true)
 
-      expect(find_all_items[:data]).to eq({})
+      expect(find_all_items[:data]).to eq([])
     end
   end
 end
