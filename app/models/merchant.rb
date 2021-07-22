@@ -9,7 +9,6 @@ class Merchant < ApplicationRecord
     invoices.joins(:invoice_items, :transactions)
       .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
       .sum('invoice_items.quantity * invoice_items.unit_price')
-      .round(2)
   end
 
   def self.top_revenue(quantity)
