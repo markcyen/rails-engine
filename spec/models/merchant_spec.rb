@@ -54,5 +54,15 @@ RSpec.describe Merchant, type: :model do
         expect(Merchant.top_revenue(quantity).third).to eq(nil)
       end
     end
+
+    describe '::search' do
+      it 'can search for merchant by name' do
+        merchant_1 = Merchant.create(name: 'Turing')
+        merchant_2 = Merchant.create(name: 'Ring World')
+        merchant_3 = Merchant.create(name: 'Turnstyle Palace')
+
+        expect(Merchant.search('ring').first).to eq(merchant_1)
+      end
+    end
   end
 end
