@@ -30,7 +30,7 @@ RSpec.describe 'Merchant Non-ReSTful API Revenue Endpoint' do
 
       expect(merchant_1_revenue_json[:data][:id].to_i).to eq(merchant_1.id)
       expect(merchant_1_revenue_json[:data][:type]).to eq("merchant_revenue")
-      expect(merchant_1_revenue_json[:data][:attributes][:revenue]).to eq(12599.40)
+      expect(merchant_1_revenue_json[:data][:attributes][:revenue].round(2)).to eq(12599.40)
     end
   end
 end
