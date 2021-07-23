@@ -19,7 +19,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data]).to be_an Array
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_20")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_20')
     end
   end
 
@@ -37,7 +37,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data].size).to eq(35)
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_35")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_35')
     end
   end
 
@@ -55,7 +55,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data].size).to eq(20)
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_20")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_20')
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:status]).to eq(400)
-      expect(merchants[:message]).to eq("Negative or zero query results to error.")
+      expect(merchants[:message]).to eq('Negative or zero query results to error.')
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data].size).to eq(20)
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_40")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_40')
     end
   end
 
@@ -109,7 +109,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data].size).to eq(39)
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_39")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_39')
     end
 
     it 'sends error in response body when limit query is negative and default page one' do
@@ -143,7 +143,7 @@ RSpec.describe 'Merchants API' do
       merchants = JSON.parse(response.body, symbolize_names: true)
 
       expect(merchants[:data].size).to eq(15)
-      expect(merchants[:data].last[:attributes][:name]).to eq("merchant_45")
+      expect(merchants[:data].last[:attributes][:name]).to eq('merchant_45')
     end
   end
 end

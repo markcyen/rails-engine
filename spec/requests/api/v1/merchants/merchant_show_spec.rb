@@ -18,7 +18,7 @@ RSpec.describe 'Merchant ReSTful API Endpoint' do
       expect(merchant_json[:data]).to have_key(:id)
 
       expect(merchant_json[:data]).to have_key(:type)
-      expect(merchant_json[:data][:type]).to eq("merchant")
+      expect(merchant_json[:data][:type]).to eq('merchant')
 
       expect(merchant_json[:data]).to have_key(:attributes)
       expect(merchant_json[:data][:attributes]).to be_a Hash

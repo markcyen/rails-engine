@@ -12,7 +12,6 @@ RSpec.describe 'Invoices Non-ReSTful API' do
   describe 'unshipped potential revenue' do
     it 'send potential revenue of unshipped orders based negative quantity' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -42,7 +41,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped", params: { quantity: 2 }
+      get '/api/v1/revenue/unshipped', params: { quantity: 2 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -50,7 +49,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:data].size).to eq(2)
-      expect(top_orders[:data].first[:type]).to eq("unshipped_order")
+      expect(top_orders[:data].first[:type]).to eq('unshipped_order')
       expect(top_orders[:data].first[:attributes]).to have_key(:potential_revenue)
       expect(top_orders[:data].first[:attributes][:potential_revenue].round(2)).to eq(7076.74)
       expect(top_orders[:data].second[:attributes][:potential_revenue].round(2)).to eq(5146.72)
@@ -58,7 +57,6 @@ RSpec.describe 'Invoices Non-ReSTful API' do
 
     it 'send potential revenue of unshipped orders based on param quantity zero' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -88,7 +86,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped", params: { quantity: 0 }
+      get '/api/v1/revenue/unshipped', params: { quantity: 0 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -96,7 +94,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:data].size).to eq(10)
-      expect(top_orders[:data].first[:type]).to eq("unshipped_order")
+      expect(top_orders[:data].first[:type]).to eq('unshipped_order')
       expect(top_orders[:data].first[:attributes]).to have_key(:potential_revenue)
       expect(top_orders[:data].first[:attributes][:potential_revenue].round(2)).to eq(7076.74)
       expect(top_orders[:data].last[:attributes][:potential_revenue].round(2)).to eq(1179.72)
@@ -104,7 +102,6 @@ RSpec.describe 'Invoices Non-ReSTful API' do
 
     it 'send potential revenue of unshipped orders based on no params' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -134,7 +131,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped"
+      get '/api/v1/revenue/unshipped'
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -142,7 +139,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:data].size).to eq(10)
-      expect(top_orders[:data].first[:type]).to eq("unshipped_order")
+      expect(top_orders[:data].first[:type]).to eq('unshipped_order')
       expect(top_orders[:data].first[:attributes]).to have_key(:potential_revenue)
       expect(top_orders[:data].first[:attributes][:potential_revenue].round(2)).to eq(7076.74)
       expect(top_orders[:data].last[:attributes][:potential_revenue].round(2)).to eq(1179.72)
@@ -150,7 +147,6 @@ RSpec.describe 'Invoices Non-ReSTful API' do
 
     it 'send error based on negative param quantity' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -180,7 +176,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped", params: { quantity: -1 }
+      get '/api/v1/revenue/unshipped', params: { quantity: -1 }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -188,12 +184,11 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:status]).to eq(400)
-      expect(top_orders[:message]).to eq("Need a relevant quantity input.")
+      expect(top_orders[:message]).to eq('Need a relevant quantity input.')
     end
 
     it 'send error based on param quantity as a string' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -223,7 +218,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped", params: { quantity: "hello world" }
+      get '/api/v1/revenue/unshipped', params: { quantity: 'hello world' }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -231,12 +226,11 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:status]).to eq(400)
-      expect(top_orders[:message]).to eq("Need a relevant quantity input.")
+      expect(top_orders[:message]).to eq('Need a relevant quantity input.')
     end
 
     it 'send error based on blank param quantity' do
       merchant_1 = create(:merchant)
-      customer_1 = create(:customer)
       item_1 = create(:item, unit_price: 294.93, merchant: merchant_1)
       item_2 = create(:item, unit_price: 643.34, merchant: merchant_1)
       item_3 = create(:item, unit_price: 335.57, merchant: merchant_1)
@@ -266,7 +260,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       InvoiceItem.create(invoice: invoice_11, item: item_2, quantity: 11, unit_price: item_2.unit_price)
       InvoiceItem.create(invoice: invoice_12, item: item_3, quantity: 12, unit_price: item_3.unit_price)
 
-      get "/api/v1/revenue/unshipped", params: { quantity: " " }
+      get '/api/v1/revenue/unshipped', params: { quantity: ' ' }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -274,7 +268,7 @@ RSpec.describe 'Invoices Non-ReSTful API' do
       top_orders = JSON.parse(response.body, symbolize_names: true)
 
       expect(top_orders[:status]).to eq(400)
-      expect(top_orders[:message]).to eq("Need a relevant quantity input.")
+      expect(top_orders[:message]).to eq('Need a relevant quantity input.')
     end
   end
 end

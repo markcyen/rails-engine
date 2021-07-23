@@ -43,14 +43,14 @@ RSpec.describe 'API Non-ReSTful' do
 
       expect(find_merchant[:data]).to eq({})
       expect(find_merchant[:status]).to eq(400)
-      expect(find_merchant[:message]).to eq("No required query name input.")
+      expect(find_merchant[:message]).to eq('No required query name input.')
     end
 
     it 'can send error when there is no params' do
       merchant_1 = Merchant.create(name: 'Turing')
       merchant_2 = Merchant.create(name: 'Ring World')
 
-      get '/api/v1/merchants/find', params: { name: "" }
+      get '/api/v1/merchants/find', params: { name: '' }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -59,14 +59,14 @@ RSpec.describe 'API Non-ReSTful' do
 
       expect(find_merchant[:data]).to eq({})
       expect(find_merchant[:status]).to eq(400)
-      expect(find_merchant[:message]).to eq("No required query name input.")
+      expect(find_merchant[:message]).to eq('No required query name input.')
     end
 
     it 'can send error when there is no params' do
       merchant_1 = Merchant.create(name: 'Turing')
       merchant_2 = Merchant.create(name: 'Ring World')
 
-      get '/api/v1/merchants/find', params: { name: "ted" }
+      get '/api/v1/merchants/find', params: { name: 'ted' }
 
       expect(response).to be_successful
       expect(response.status).to eq(200)
@@ -75,7 +75,7 @@ RSpec.describe 'API Non-ReSTful' do
 
       expect(find_merchant[:data]).to eq({})
       expect(find_merchant[:status]).to eq(400)
-      expect(find_merchant[:message]).to eq("No required query name input.")
+      expect(find_merchant[:message]).to eq('No required query name input.')
     end
   end
 end

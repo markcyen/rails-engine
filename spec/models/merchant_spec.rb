@@ -21,8 +21,8 @@ RSpec.describe Merchant, type: :model do
       invoice_2 = create(:invoice, merchant: merchant_1, status: 'shipped')
       create(:invoice_item, item: item_1, invoice: invoice_1, quantity: 10, unit_price: item_1.unit_price)
       create(:invoice_item, item: item_2, invoice: invoice_1, quantity: 15, unit_price: item_2.unit_price)
-      create(:transaction, result: "success", invoice: invoice_1)
-      create(:transaction, result: "failed", invoice: invoice_2)
+      create(:transaction, result: 'success', invoice: invoice_1)
+      create(:transaction, result: 'failed', invoice: invoice_2)
 
       expect(merchant_1.revenue.round(2)).to eq(12599.40)
     end
@@ -38,14 +38,14 @@ RSpec.describe Merchant, type: :model do
         create(:invoice_item, item: item_1, invoice: invoice_1, quantity: 10, unit_price: item_1.unit_price)
         create(:invoice_item, item: item_2, invoice: invoice_1, quantity: 15, unit_price: item_2.unit_price)
         create(:invoice_item, item: item_3, invoice: invoice_1, quantity: 20, unit_price: item_3.unit_price)
-        create(:transaction, result: "success", invoice: invoice_1)
-        create(:transaction, result: "success", invoice: invoice_2)
+        create(:transaction, result: 'success', invoice: invoice_1)
+        create(:transaction, result: 'success', invoice: invoice_2)
 
         merchant_2 = create(:merchant)
         item_4 = create(:item, unit_price: 129.52, merchant: merchant_2)
         invoice_3 = create(:invoice, merchant: merchant_2, status: 'shipped')
         create(:invoice_item, item: item_4, invoice: invoice_3, quantity: 7, unit_price: item_4.unit_price)
-        create(:transaction, result: "success", invoice: invoice_3)
+        create(:transaction, result: 'success', invoice: invoice_3)
 
         quantity = 10
 
@@ -84,8 +84,8 @@ RSpec.describe Merchant, type: :model do
         invoice_2 = create(:invoice, merchant: merchant_1, status: 'shipped')
         create(:invoice_item, item: item_1, invoice: invoice_1, quantity: 3)
         create(:invoice_item, item: item_2, invoice: invoice_2, quantity: 12)
-        create(:transaction, result: "success", invoice: invoice_1)
-        create(:transaction, result: "failed", invoice: invoice_2)
+        create(:transaction, result: 'success', invoice: invoice_1)
+        create(:transaction, result: 'failed', invoice: invoice_2)
 
         merchant_2 = create(:merchant)
         item_3 = create(:item, name: 'Cream cheese', merchant: merchant_2)
@@ -94,8 +94,8 @@ RSpec.describe Merchant, type: :model do
         invoice_4 = create(:invoice, merchant: merchant_2, status: 'shipped')
         create(:invoice_item, item: item_3, invoice: invoice_3, quantity: 120)
         create(:invoice_item, item: item_4, invoice: invoice_4, quantity: 76)
-        create(:transaction, result: "success", invoice: invoice_3)
-        create(:transaction, result: "failed", invoice: invoice_4)
+        create(:transaction, result: 'success', invoice: invoice_3)
+        create(:transaction, result: 'failed', invoice: invoice_4)
 
         merchant_3 = create(:merchant)
         item_5 = create(:item, name: 'Tennis Racket', merchant: merchant_3)
@@ -104,8 +104,8 @@ RSpec.describe Merchant, type: :model do
         invoice_6 = create(:invoice, merchant: merchant_3, status: 'shipped')
         create(:invoice_item, item: item_5, invoice: invoice_5, quantity: 5)
         create(:invoice_item, item: item_6, invoice: invoice_6, quantity: 17)
-        create(:transaction, result: "success", invoice: invoice_5)
-        create(:transaction, result: "failed", invoice: invoice_6)
+        create(:transaction, result: 'success', invoice: invoice_5)
+        create(:transaction, result: 'failed', invoice: invoice_6)
 
         merchant_4 = create(:merchant)
         item_7 = create(:item, name: 'Baseball Bat', merchant: merchant_4)
@@ -114,8 +114,8 @@ RSpec.describe Merchant, type: :model do
         invoice_8 = create(:invoice, merchant: merchant_4, status: 'shipped')
         create(:invoice_item, item: item_7, invoice: invoice_7, quantity: 26)
         create(:invoice_item, item: item_8, invoice: invoice_8, quantity: 7)
-        create(:transaction, result: "success", invoice: invoice_7)
-        create(:transaction, result: "failed", invoice: invoice_8)
+        create(:transaction, result: 'success', invoice: invoice_7)
+        create(:transaction, result: 'failed', invoice: invoice_8)
 
         merchant_5 = create(:merchant)
         item_9 = create(:item, name: 'Basketball', merchant: merchant_5)
@@ -124,8 +124,8 @@ RSpec.describe Merchant, type: :model do
         invoice_10 = create(:invoice, merchant: merchant_5, status: 'shipped')
         create(:invoice_item, item: item_9, invoice: invoice_9, quantity: 79)
         create(:invoice_item, item: item_10, invoice: invoice_10, quantity: 53)
-        create(:transaction, result: "success", invoice: invoice_9)
-        create(:transaction, result: "failed", invoice: invoice_10)
+        create(:transaction, result: 'success', invoice: invoice_9)
+        create(:transaction, result: 'failed', invoice: invoice_10)
 
         merchant_6 = create(:merchant)
         item_11 = create(:item, name: 'Football', merchant: merchant_6)
@@ -134,8 +134,8 @@ RSpec.describe Merchant, type: :model do
         invoice_12 = create(:invoice, merchant: merchant_6, status: 'shipped')
         create(:invoice_item, item: item_11, invoice: invoice_11, quantity: 57)
         create(:invoice_item, item: item_12, invoice: invoice_12, quantity: 39)
-        create(:transaction, result: "success", invoice: invoice_11)
-        create(:transaction, result: "failed", invoice: invoice_12)
+        create(:transaction, result: 'success', invoice: invoice_11)
+        create(:transaction, result: 'failed', invoice: invoice_12)
 
         expect(Merchant.find_most_items(6).first).to eq(merchant_2)
         expect(Merchant.find_most_items(6).second).to eq(merchant_5)

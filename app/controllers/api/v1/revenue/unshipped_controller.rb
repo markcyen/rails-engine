@@ -1,12 +1,12 @@
 class Api::V1::Revenue::UnshippedController < ApplicationController
   CONSTANT = 10
-  
+
   def index
     if params[:quantity].to_i < 0 ||
-      params[:quantity] == "" ||
+      params[:quantity] == '' ||
       !params[:quantity].to_s.scan(/\D/).empty? ||
       Invoice.unshipped_potential(params[:quantity]).nil?
-        render json: {data: {}, status: 400, message: "Need a relevant quantity input."}
+        render json: {data: {}, status: 400, message: 'Need a relevant quantity input.'}
     elsif !params[:quantity].present? ||
       params[:quantity].nil? ||
       params[:quantity].empty? ||

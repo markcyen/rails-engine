@@ -128,7 +128,7 @@ binding.pry if items[:data].last[:attributes][:name] != "item_20"
       items = JSON.parse(response.body, symbolize_names: true)
 
       expect(items[:status]).to eq(400)
-      expect(items[:message]).to eq("Negative or zero query results to error.")
+      expect(items[:message]).to eq('Negative or zero query results to error.')
     end
   end
 

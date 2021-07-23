@@ -24,7 +24,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       expect(item_json[:data]).to have_key(:type)
       expect(item_json[:data][:type]).to be_a String
-      expect(item_json[:data][:type]).to eq("item")
+      expect(item_json[:data][:type]).to eq('item')
 
       expect(item_json[:data]).to have_key(:attributes)
       expect(item_json[:data][:attributes]).to be_a Hash
@@ -58,7 +58,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
         merchant_id: merchant.id
         })
 
-      headers = {"CONTENT_TYPE" => "application/json"}
+      headers = { 'CONTENT_TYPE' => 'application/json' }
       post "/api/v1/items", headers: headers, params: JSON.generate(item: item_params)
       # created_item = Item.last
 
@@ -75,7 +75,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
 
       expect(created_item_json[:data]).to have_key(:id)
       expect(created_item_json[:data]).to have_key(:type)
-      expect(created_item_json[:data][:type]).to eq("item")
+      expect(created_item_json[:data][:type]).to eq('item')
 
       expect(created_item_json[:data]).to have_key(:attributes)
       expect(created_item_json[:data][:attributes]).to have_key(:name)
@@ -124,7 +124,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
         merchant_id: merchant_2.id
         })
 
-      headers = {"CONTENT_TYPE" => "application/json"}
+      headers = { 'CONTENT_TYPE' => 'application/json' }
       patch "/api/v1/items/#{Item.last.id}", headers: headers, params: JSON.generate({item: item_changed_params})
       # search_item = Item.find_by(id: item.id)
 
@@ -166,7 +166,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
       expect(response).to be_successful
       expect(response.status).to eq(204)
       expect(Item.count).to eq(0)
-      expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+      expect{ Item.find(item.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
@@ -189,7 +189,7 @@ RSpec.describe 'Item RESTful API Endpoints' do
       expect(merchant_json[:data][:id].to_i).to eq(merchant.id)
 
       expect(merchant_json[:data]).to have_key(:type)
-      expect(merchant_json[:data][:type]).to eq("merchant")
+      expect(merchant_json[:data][:type]).to eq('merchant')
 
       expect(merchant_json[:data]).to have_key(:attributes)
       expect(merchant_json[:data][:attributes]).to have_key(:name)

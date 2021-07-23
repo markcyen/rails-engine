@@ -13,7 +13,7 @@ class Api::V1::MerchantsController < ApplicationController
       end
     elsif !params[:per_page].present? && params[:page].present?
       if params[:page].to_i < 0
-        render json: {status: 400, message: "Negative or zero query results to error."}
+        render json: {status: 400, message: 'Negative or zero query results to error.'}
       elsif params[:page].to_i == 0
         merchants = Merchant.limit(20)
         render json: MerchantSerializer.new(merchants)
@@ -55,12 +55,12 @@ class Api::V1::MerchantsController < ApplicationController
   def most_items
     if params[:quantity].to_i < 0 ||
       !params[:quantity].to_s.scan(/\D/).empty?
-        render json: {status: 400, message: "Need a relevant quantity input."}
+        render json: {status: 400, message: 'Need a relevant quantity input.'}
     elsif !params[:quantity].present? ||
       params[:quantity].nil? ||
       params[:quantity].empty? ||
       params[:quantity].to_i == 0 ||
-      params[:quantity] == ""
+      params[:quantity] == ''
         merchants_with_most_items = Merchant.find_most_items(CONSTANT)
         render json: MostItemsSerializer.new(merchants_with_most_items)
     else

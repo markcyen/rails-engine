@@ -13,7 +13,7 @@ class Api::V1::ItemsController < ApplicationController
       end
     elsif !params[:per_page].present? && params[:page].present?
       if params[:page].to_i < 0
-        render json: {status: 400, message: "Negative or zero query results to error."}
+        render json: {status: 400, message: 'Negative or zero query results to error.'}
       elsif params[:page].to_i == 0
         items = Item.limit(20)
         render json: ItemSerializer.new(items)
