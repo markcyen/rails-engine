@@ -23,4 +23,13 @@ class Merchant < ApplicationRecord
   def self.search(search_params)
     where("name LIKE ?", "%#{search_params}%")
   end
+
+  def self.find_most_items(quantity)
+    joins(:invoices, :invoice_items, :transactions)
+      .select('merchants.*, sum(invoice_items.quantity) AS count')
+      .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
+      .group(:id)
+      .order('count DESC')
+      .limit(quantity)
+  end
 end
