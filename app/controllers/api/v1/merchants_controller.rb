@@ -41,8 +41,11 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def find
-    if params[:name].nil? || !params[:name].present? || params[:name].empty?
-      render json: {data: {}, status: 400, message: 'No required query name input.'}
+    if params[:name].nil? ||
+      !params[:name].present? ||
+      params[:name].empty? ||
+      Merchant.search(params[:name]).empty?
+        render json: {data: {}, status: 400, message: 'No required query name input.'}
     else
       find_merchant = Merchant.search(params[:name]).first
       render json: MerchantSerializer.new(find_merchant)
