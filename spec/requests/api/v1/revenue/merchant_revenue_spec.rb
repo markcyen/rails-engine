@@ -12,14 +12,14 @@ RSpec.describe 'Merchant Non-ReSTful API Revenue Endpoint' do
       create(:invoice_item, item: item_1, invoice: invoice_1, quantity: 10, unit_price: item_1.unit_price)
       create(:invoice_item, item: item_2, invoice: invoice_1, quantity: 15, unit_price: item_2.unit_price)
       create(:invoice_item, item: item_3, invoice: invoice_2, quantity: 20, unit_price: item_3.unit_price)
-      create(:transaction, result: "success", invoice: invoice_1)
-      create(:transaction, result: "failed", invoice: invoice_2)
+      create(:transaction, result: 'success', invoice: invoice_1)
+      create(:transaction, result: 'failed', invoice: invoice_2)
 
       merchant_2 = create(:merchant)
       item_4 = create(:item, unit_price: 129.52, merchant: merchant_2)
       invoice_3 = create(:invoice, merchant: merchant_2, status: 'shipped')
       create(:invoice_item, item: item_4, invoice: invoice_3, quantity: 7, unit_price: item_4.unit_price)
-      create(:transaction, result: "success", invoice: invoice_3)
+      create(:transaction, result: 'success', invoice: invoice_3)
 
       get "/api/v1/revenue/merchants/#{merchant_1.id}"
 

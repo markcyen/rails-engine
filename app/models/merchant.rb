@@ -7,14 +7,14 @@ class Merchant < ApplicationRecord
 
   def revenue
     invoices.joins(:invoice_items, :transactions)
-      .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
+      .where('transactions.result = ? AND invoices.status = ?', 'success', "shipped")
       .sum('invoice_items.quantity * invoice_items.unit_price')
   end
 
   def self.top_revenue(quantity)
     joins(:invoices, :invoice_items, :transactions)
       .select('merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue')
-      .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
+      .where('transactions.result = ? AND invoices.status = ?', 'success', "shipped")
       .group(:id)
       .order('revenue DESC')
       .limit(quantity)
@@ -27,7 +27,7 @@ class Merchant < ApplicationRecord
   def self.find_most_items(quantity)
     joins(:invoices, :invoice_items, :transactions)
       .select('merchants.*, sum(invoice_items.quantity) AS count')
-      .where('transactions.result = ? AND invoices.status = ?', "success", "shipped")
+      .where('transactions.result = ? AND invoices.status = ?', 'success', "shipped")
       .group(:id)
       .order('count DESC')
       .limit(quantity)
