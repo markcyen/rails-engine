@@ -1,4 +1,5 @@
 class Api::V1::MerchantsController < ApplicationController
+  CONSTANT = 5
   def index
     if !params[:per_page].present? && !params[:page].present?
       merchants = Merchant.limit(20)
@@ -45,6 +46,23 @@ class Api::V1::MerchantsController < ApplicationController
     else
       find_merchant = Merchant.search(params[:name]).first
       render json: MerchantSerializer.new(find_merchant)
+    end
+  end
+
+  def most_items
+    if params[:quantity].to_i < 0 ||
+      !params[:quantity].to_s.scan(/\D/).empty?
+        render json: {status: 400, message: "Need a relevant quantity input."}
+    elsif !params[:quantity].present? ||
+      params[:quantity].nil? ||
+      params[:quantity].empty? ||
+      params[:quantity].to_i == 0 ||
+      params[:quantity] == ""
+        merchants_with_most_items = Merchant.find_most_items(CONSTANT)
+        render json: MostItemsSerializer.new(merchants_with_most_items)
+    else
+      merchants_with_most_items = Merchant.find_most_items(params[:quantity])
+      render json: MostItemsSerializer.new(merchants_with_most_items)
     end
   end
 end
