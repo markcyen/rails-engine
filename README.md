@@ -84,7 +84,7 @@ Response:
 }
 ````
 
-#### Find all merchants endpoint
+#### Find all merchants endpoint (Non-ReSTful)
 
 `GET /api/v1/merchants/find_all?name=ring`
 
@@ -110,7 +110,7 @@ Response:
 }
 ````
 
-#### Getting merchants with the most revenue
+#### Getting merchants with the most revenue (Non-ReSTful)
 
 `GET /api/v1/revenue/merchants?quantity=2`
 
